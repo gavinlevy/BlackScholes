@@ -174,7 +174,67 @@ class project2{
         }
 
    
+   public OptionPrice()
+        {
+        }
+
+        public OptionPrice(Double S, Double K, double r, double vol, double T, char option)
+        {
+            this.S1 = S;
+            this.K1 = K;
+            this.R = r;
+            this.Vol = vol;
+            this.T1 = T;
+            this.Option = option;
+
+        }
+
+        // getters and setters
+        public double S1 { get => S; set => S = value; }
+        public double K1 { get => K; set => K = value; }
+        public double R { get => r; set => r = value; }
+        public double Vol { get => vol; set => vol = value; }
+        public double T1 { get => T; set => T = value; }
+        public char Option { get => option; set => option = value; }
    
+   // calculating d1 and d2
+        public double d1()
+        {
+            double D1 = (Math.Log10(S1 / K1) + (R + Vol * Vol * 0.5) * T1) / (Vol * Math.Sqrt(T1));
+            return D1;
+        }
+
+        public double d2()
+        {
+            double D2 = (Math.Log10(S1 / K1) + (R - Vol * Vol * 0.5) * T1) / (Vol * Math.Sqrt(T1));
+            return D2;
+        }
+
+
+
+        // black scholes price calculation
+        public double bs()
+        {
+
+
+            if (Option.Equals('c'))
+            {
+                double price = S1 * NormalCDF(d1()) - NormalCDF(d2() * K1 * Math.Exp(-R * T1));
+                return price;
+
+            }
+            else if (Option.Equals('p'))
+            {
+                double price = NormalCDF(-d2()) * K1 * Math.Exp(-R * T1) - NormalCDF(-d1()) * S1;
+                return price;
+
+            }
+            else
+            {
+                Console.WriteLine("Option type not valid!");
+                return 0;
+
+            }
    
    
    
